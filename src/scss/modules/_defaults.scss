@@ -12,3 +12,7 @@ body {
   background:#fff;
   color:#444;
 }
+
+#content {
+  @include container(80em);
+}

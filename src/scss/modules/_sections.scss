@@ -1,0 +1,95 @@
+//@extend-elements
+//original selectors
+//section::before, section::after
+%extend_1 {
+  position: absolute;
+  content: '';
+  pointer-events: none;
+}
+
+//original selectors
+//.ss-style-triangles::before, .ss-style-triangles::after
+%extend_2 {
+  left: 50%;
+  width: 100px;
+  height: 100px;
+  @include transform(translateX(-50%));
+  @include transform(rotate(45deg));
+
+}
+//original selectors
+//.ss-style-doublediagonal::before, .ss-style-doublediagonal::after
+%extend_3 {
+  top: 0;
+  left: -25%;
+  z-index: -1;
+  width: 150%;
+  height: 75%;
+  background: inherit;
+  @include transform(rotate (-2deg));
+  @include transform-origin(0 0);
+}
+
+//original selectors
+//.ss-style-foldedcorner::before, .ss-style-foldedcorner::after
+%extend_4 {
+  bottom: 0;
+  width: 100px;
+  height: 100px;
+}
+.content-band {
+  &::before {
+    @extend %extend_1;
+  }
+  &::after {
+    @extend %extend_1;
+  }
+}
+.ss-style-triangles {
+  &::before {
+    @extend %extend_2;
+    top: -50px;
+    background: $color_boston_blue_approx;
+  }
+  &::after {
+    @extend %extend_2;
+    bottom: -50px;
+    z-index: 10;
+    background: inherit;
+  }
+}
+.ss-style-doublediagonal {
+  z-index: 1;
+  padding-top: 6em;
+  background: $color_matisse_approx;
+  &::before {
+    @extend %extend_3;
+    height: 50%;
+    background: $color_matisse_approx;
+    @include transform(rotate(-3deg));
+    @include transform-origin(3% 0);
+  }
+  &::after {
+    @extend %extend_3;
+  }
+}
+.ss-style-foldedcorner {
+  &::before {
+    @extend %extend_4;
+    right: 0;
+    //vendor-prefix found
+    //background-image: -webkit-linear-gradient(top left, #37a2ea 50%, #3498db 50%)
+    background-image: linear-gradient(315deg, $color_curious_blue_approx 50%, $color_picton_blue_approx 50%);
+  }
+  &::after {
+    @extend %extend_4;
+    right: 100px;
+    //vendor-prefix found
+    //background-image: -webkit-linear-gradient(top left, transparent 50%, #236fa1 50%)
+    background-image: linear-gradient(315deg, $color_matisse_approx 50%, transparent 50%);
+  }
+}
+
+
+//********************************************?
+

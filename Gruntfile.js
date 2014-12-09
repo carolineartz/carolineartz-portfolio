@@ -42,7 +42,7 @@ module.exports = function (grunt) {
       app: 'app',
       assets: '<%= project.app %>/assets',
       css: [
-        '<%= project.src %>/scss/style.scss'
+        '<%= project.src %>/scss/*.scss'
       ],
       js: [
         '<%= project.src %>/js/*.js'
@@ -56,13 +56,13 @@ module.exports = function (grunt) {
      */
     tag: {
       banner: '/*!\n' +
-              ' * <%= pkg.name %>\n' +
-              ' * <%= pkg.title %>\n' +
-              ' * <%= pkg.url %>\n' +
-              ' * @author <%= pkg.author %>\n' +
-              ' * @version <%= pkg.version %>\n' +
-              ' * Copyright <%= pkg.copyright %>. <%= pkg.license %> licensed.\n' +
-              ' */\n'
+        ' * <%= pkg.name %>\n' +
+        ' * <%= pkg.title %>\n' +
+        ' * <%= pkg.url %>\n' +
+        ' * @author <%= pkg.author %>\n' +
+        ' * @version <%= pkg.version %>\n' +
+        ' * Copyright <%= pkg.copyright %>. <%= pkg.license %> licensed.\n' +
+        ' */\n'
     },
 
     /**
@@ -136,11 +136,17 @@ module.exports = function (grunt) {
      * https://github.com/gruntjs/grunt-contrib-sass
      * Compiles all Sass/SCSS files and appends project banner
      */
-    sass: {
+
+
+    compass: {
       dev: {
         options: {
-          style: 'expanded',
-          banner: '<%= tag.banner %>'
+          sassDir: '<%= project.src %>/scss',
+          cssDir: '<%= project.assets %>/css',
+          specify: ['<%= project.css %>'],
+          banner: '<%= tag.banner %>',
+          require: 'susy'
+          //require: 'companimation'
         },
         files: {
           '<%= project.assets %>/css/style.min.css': '<%= project.css %>'
@@ -156,6 +162,27 @@ module.exports = function (grunt) {
         }
       }
     },
+    
+    /**
+     * Compile jade files to html
+     * https://github.com/gruntjs/grunt-contrib-jade
+     * Compiles all Sass/SCSS files and appends project banner
+     */
+    
+    jade: {
+      compile: {
+        options: {
+          data: {
+            debug: false
+          },
+          banner: '<%= tag.banner %>',
+        },
+        files: {
+          '<%= project.app %>/index.html': '<%= project.src %>/templates/*.jade'
+        }
+      }
+    },
+    
 
     /**
      * Opens the web server in the browser
@@ -178,9 +205,9 @@ module.exports = function (grunt) {
         files: '<%= project.src %>/js/{,*/}*.js',
         tasks: ['concat:dev', 'jshint']
       },
-      sass: {
+      compass: {
         files: '<%= project.src %>/scss/{,*/}*.{scss,sass}',
-        tasks: ['sass:dev']
+        tasks: ['compass:dev']
       },
       livereload: {
         options: {
@@ -201,7 +228,8 @@ module.exports = function (grunt) {
    * Run `grunt` on the command line
    */
   grunt.registerTask('default', [
-    'sass:dev',
+    'jade',
+    'compass:dev',
     'jshint',
     'concat:dev',
     'connect:livereload',
@@ -215,7 +243,8 @@ module.exports = function (grunt) {
    * Then compress all JS/CSS files
    */
   grunt.registerTask('build', [
-    'sass:dist',
+    'jade',
+    'compass:dist',
     'jshint',
     'uglify'
   ]);

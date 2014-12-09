@@ -1,9 +1,21 @@
-(function ($, window, document, undefined) {
+//(function ($, window, document, undefined) {
+//
+//  
+//
+//  $(function () {
+//    // FireShell
+//  });
+//
+//})(jQuery, window, document);
+//
 
-  'use strict';
-
-  $(function () {
-    // FireShell
-  });
-
-})(jQuery, window, document);
+/**
+ * ytmenu.js v1.0.0
+ * http://www.codrops.com
+ *
+ * Licensed under the MIT license.
+ * http://www.opensource.org/licenses/mit-license.php
+ *
+ * Copyright 2013, Codrops
+ * http://www.codrops.com
+ */
